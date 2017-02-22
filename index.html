@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>会诊室</title>
+<meta charset="utf-8">
+<link rel="stylesheet" type="text/css" href="http://www.ceshi.com/public/css/fancybox.css">
+<link rel="stylesheet" type="text/css" href="http://www.ceshi.com/public/css/font-awesome.min.css">
+<style>
+body{margin: 0;}
+.open-dialog-box{ position:relative;}
+.medicalimaging-box{
+	position: absolute;box-shadow: none;height: 24px;line-height: 24px;
+	width: 473px;border: none;border-radius: 0;
+	left: 26px;top: 250px;text-align: left;color: #CCC;
+	background: transparent;border-top: 1px solid #ccc;border-bottom: 1px solid #CCC;text-indent: 5px;
+}
+
+#iframe, #iframe:hover{
+	color: red; 
+}
+.doctor_pageR {
+    width: 499px;
+    height: 421px; 
+    overflow-y: scroll;
+    float: left;
+    border: 1px solid #d7d7d7;
+    background-color: #fff;    overflow-y: hidden;
+}
+.tablebox-adminssions-start-box {
+    border-bottom: 1px solid #ccc;
+}
+.bgtitle-box {
+    height: 40px;
+    line-height: 40px;
+    background-color: #a0cdeb;
+    margin: 0;
+    text-indent: 10px;
+    color: #fff;
+}
+#iframe_con {
+    width: 499px;
+    height: 378px;
+    border: none;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+}
+.bodymain{margin:20px;}
+</style>
+
+</head>
+<body>			
+<div class="bodymain">
+	<div class="doctor_pageR">
+		<div class="tablebox-adminssions-start-box open-dialog-box" id="nowSee">
+			<div class="tablebox-adminssions-start-tab-box" style="display:block;">
+				<h3 class="bgtitle-box">会诊消息</h3>
+				<div class="medicalimaging-box">
+					<a id="iframe" class="iframe fa fa-heartbeat" href="medicalimaging.html"></a>		
+				</div>	  
+				<iframe src="doctorchat.html" id="iframe_con" class="iframe_conB xianzhen_iframe xianzening" name="iframe_name" scrolling="no"></iframe>
+			</div>						
+		</div>
+	</div>
+</div>
+
+<div class="popimgopc"></div>
+
+<script src="http://www.ceshi.com/public/js/jquery.min.js"></script> 
+
+<script type="text/javascript" src="http://www.ceshi.com/public/js/jquery.fancybox-1.3.1.pack.js"></script>
+
+
+<script type="text/javascript">
+
+$("#iframe").fancybox({
+	'scrolling' : 'auto',
+	'width' : '75%',
+	'height' : '75%',
+	'autoScale' : false,
+});
+/*function controlfancsize(){
+	alert(123);
+	//$.fancybox.resize();
+	$.fancybox.center();
+}*/
+
+var divClicked = false;
+
+function popimg(imgsrc){
+
+     divClicked = true;
+	
+	var imgdom = "<img src=\""+ imgsrc + "\" class='popimg' /><h3 class=\"boxhide\" onclick=\"javascript:clockpopimg()\"></h3>";	
+	
+	$("#container").append(imgdom);
+	
+	$("#container .popimg").load(function(){
+		var image=new Image();     
+		image.src=imgsrc;   
+	
+		var boxw = image.width, boxh = image.height;
+		
+		if(boxh > 600){
+			boxh = 600; $("#container .popimg").css("height","600px");
+			
+			boxw = $("#container .popimg").css("width"), boxh = $("#container .popimg").css("height"); 
+			boxw = parseInt(boxw.slice(0, -2)); boxh = parseInt(boxh.slice(0, -2));
+		}
+		
+		var boxleft=$(document).width()/2-boxw/2;
+		var boxtop=$(document).scrollTop()+document.documentElement.clientHeight/2-boxh/2; 
+		if(boxtop < 0){
+			boxtop = 30;
+		}  
+		 
+		/*var hidetop=$(document).scrollTop()+document.documentElement.clientHeight/2-boxh/2+50;
+		var hideleft=$(document).width()/2-boxw/2+boxw+80;*/
+		
+		var hidetop=boxtop;
+		var hideleft=boxleft+boxw-50;
+		
+		if(hidetop < 0){
+			hidetop = 80;
+		} 
+		
+		$("#container .popimg").css('left',boxleft+'px');
+		$("#container .popimg").css('top',boxtop+'px');
+		$("#container .boxhide").css('top',hidetop+'px');
+		$("#container .boxhide").css('left',hideleft+'px');
+		$(".popimgopc").show();
+	});
+}
+
+function DrawImage(ImgD,FitWidth,FitHeight){     
+    var image=new Image();     
+    image.src=ImgD.src;console.log(ImgD);     
+    if(image.width>0 && image.height>0){     
+        if(image.width/image.height>= FitWidth/FitHeight){     
+            if(image.width>FitWidth){     
+                ImgD.width=FitWidth;     
+                ImgD.height=(image.height*FitWidth)/image.width;     
+            }     
+            else{     
+                ImgD.width=image.width;     
+                ImgD.height=image.height;     
+            } 
+			
+			return true;    
+        }     
+        else{     
+            if(image.height>FitHeight){     
+                ImgD.height=FitHeight;     
+                ImgD.width=(image.width*FitHeight)/image.height;     
+            }     
+            else{     
+                ImgD.width=image.width;     
+                ImgD.height=image.height;     
+            }
+			return true;     
+        }     
+    }     
+}  
+
+function clockpopimg(){
+	$('#container .popimg').remove();$('.boxhide').remove();$(".popimgopc").hide();
+}
+
+document.onclick = function() {
+  if(!divClicked) {
+		$('#container .popimg').remove();$('.boxhide').remove();$(".popimgopc").hide();
+  }
+   divClicked = false;
+};
+
+
+$(".tablebox-adminssions-start-tab").bind('click',function(){
+    $(this).siblings(".tablebox-adminssions-start-tab").removeClass("changcolor-blue").end().addClass("changcolor-blue");
+	$(this).siblings(".tablebox-adminssions-start-tab").find(".tabinstantmessage").remove();
+	var indexing = $(".tablebox-adminssions-start-tabnav-box .tablebox-adminssions-start-tab").index($(this)); 
+	//$(this).find("b").prepend("<h6 class=\"tabinstantmessage\"></h6>");
+$(".tablebox-adminssions-start-box .tablebox-adminssions-start-tab-box").eq(indexing).siblings(".tablebox-adminssions-start-box .tablebox-adminssions-start-tab-box").hide().end().show();
+
+});
+
+
+$(function(){ 
+    $(".fancyboximg").fancybox({ 
+        'titlePosition' : 'over', 
+        'cyclic'        : true
+    }); 
+}); 
+
+</script>
+
+</body>
+</html>

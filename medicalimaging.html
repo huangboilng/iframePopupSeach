@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta charset="utf-8">
+	
+<link rel="stylesheet" href="http://www.ceshi.com/public/css/bootstrap.min.css" />
+
+<style>
+
+.titlemsg{ width:100%; display:block;}
+.modal-search-listbox, #sun-json-show{ display:none; margin-top:20px;}
+.sun-json-show-delete{ cursor:pointer;}
+.text-center{text-align:center;}
+.modal-search-listbox-footer{position: fixed;
+    bottom: 0;
+    width: 97%;}
+</style>
+
+</head>
+<body style="background-color:#fff">
+
+
+<div id="myModal">
+  <div class="modal-header">
+    <button type="button" class="close">×</button>
+    <h3 id="myModalLabel">云影像列表</h3>
+  </div>
+  <div class="modal-body">
+		<div class="modal-search-box">
+		  <input type="text" class="input-medium search-query" id="search-input-bianhao" placeholder="输入患者编号">
+		  <button id="search-bianhao" class="btn">搜索</button>
+		</div>
+		<div class="modal-search-listbox">
+		    <table class="table table-bordered">
+			 <thead>
+				<tr>
+				  <th>
+				    <label class="checkbox inline">
+					  <input type="checkbox" id="checkAll">
+					</label>
+				  </th>	
+				  <th>患者姓名</th>
+				  <th>患者性别</th>
+				  <th>患者年龄</th>
+				  <th>影像类别</th>
+				  <th>采集时间</th>
+				  <th>报告时间</th>
+				  <th>机构名称</th>
+				  <th>查看</th>
+				</tr>
+			  </thead>
+			  <tbody class="modal-search-listbox-tbody">
+
+		  	  </tbody>
+			</table>
+		</div>
+  </div>
+  <div class="modal-footer modal-search-listbox-footer">
+    <button class="btn btn-primary" id="modal-ok-json">确定</button>	
+  </div>
+	
+</div>
+	
+		  
+<script src="http://www.ceshi.com/public/js/jquery.min.js"></script> 
+
+<script type="text/javascript" src="http://www.ceshi.com/public/js/bootstrap.min.js"></script>
+
+
+<script type="text/javascript">
+
+$(function() {
+	 
+	//用于保存用户选择的云影像数据checkbox   STUDY_KEY
+	var objchangJson = {}; 
+    objchangJson.list = [];
+
+	$("#checkAll").click(function() {
+		$('.modal-search-listbox-tbody input[name="subBox"]').prop("checked", this.checked);
+	});
+	  
+	$('.modal-search-listbox-tbody').on("click",".json-add",function() { 
+		var $subs = $(".json-add"), onejsonflag, that = this, newjsonflag = [];
+		$("#checkAll").prop("checked" , $subs.length == $subs.filter(":checked").length ? true :false);
+	});
+	
+    $("#modal-ok-json").click(function(){
+		objchangJson.list = [];
+		$(".json-add:checkbox").each(function(){
+			if(this.checked == true){
+				objchangJson.list.push(data.list[$(this).index('.json-add')]);			
+			}		
+		});
+
+		if(objchangJson.list.length > 0){
+		
+			var doctorImage = parent.$(".xianzening")[0].contentWindow.$(".doctorImage").val();
+			var doctorName = parent.$(".xianzening")[0].contentWindow.$(".doctorName").val();
+			
+			$.each(objchangJson.list, function (id, val) {  console.log(objchangJson.list[id]);
+
+				parent.$(".xianzening")[0].contentWindow.$(".dpR_conBA ul").append("<div class='dpr_Chat'>"+
+						  "<div class=\"dpr_Chat_left\"><img  src="+doctorImage+"></div>"+
+                          "<div class='objchangJsontablebg'><p>"+doctorName+"医生</p><div class='dpr_Chat_bg'><i class='dpr_Chat_bgarrow'></i>"+
+						  "<table class=\"objchangJsontable\"><tbody>"+
+						  "<tr><td>类型</td><td>"+val.MODALITIES+"</td></tr><tr><td>报告时间</td><td>"+val.STUDY_DTTM+"</td></tr>"+
+						  "<tr><td>机构名称</td><td>"+val.INSTITUTION+"</td></tr>"+
+						  "<tr><td></td><td><a href='"+val.URL+"' target=\"_blank\">云影像</a></td></tr>"+
+						  "</tbody></table></div></div></div>");	
+			});
+			parent.$.fancybox.close();
+		}
+	})
+	
+	$(".close").click(function(){
+		parent.$.fancybox.close();
+	})
+	
+	$("#search-bianhao").click(function(){
+		//P00302155
+		var pid = $("#search-input-bianhao").val();
+		if(!pid){
+			alert("请输入用户编号！");
+			return;
+		}	
+		/*$.ajax({
+		   type: "GET",
+		   url: "/proxy/http/nfs.jiangxi.rimag.com.cn/80/imageList/json.php",
+		   data: "pid="+pid,
+		   dataType: "json",
+		   success: function(json){
+		   		data = json;
+				if(data.list.length > 0){
+				
+					$(".modal-search-listbox-tbody").empty();
+					
+					$.each(data.list, function (id, val) {
+					
+data.list[id]["URL"] = "/proxy/http/dcm.jiangxi.rimag.com.cn/8080/rmsweb/viewer.html?studyUID="+data.list[id].STUDY_INSTANCE_UID;
+
+					$(".modal-search-listbox-tbody").append("<tr><td><label class=\"checkbox inline\"><input type=\"checkbox\" name=\"subBox\" class=\"json-add\"  attrval="+val.STUDY_INSTANCE_UID+"></label></td><td>"+val.PATIENT_NAME+"</td><td>"+val.PATIENT_SEX+"</td><td>"+val.PATIENT_AGE+"</td><td>"+val.MODALITIES+"</td><td>"+val.CREATION_DTTM+"</td><td>"+val.STUDY_DTTM+"</td><td>"+val.INSTITUTION+"</td><td><a href="+val.URL+" target=\"_blank\"><i class='icon-picture'></i></a></td></tr>");	
+								
+					});
+			
+					$(".modal-search-listbox").css("display","block");
+				}else{
+					alert("没有搜索到此信息！");
+				}	
+		   }		   
+		});*/
+		
+		data = {"list":[{"STUDY_KEY":"21524","PATIENT_ID":"P00302155","PATIENT_NAME":"LiXiaoYing","PATIENT_SEX":"F","PATIENT_AGE1":"52","PATIENT_AGE2":"051Y","SERIES_COUNT":"6","INSTANCE_COUNT":"66","MODALITIES":"CT\\OT\\SR","CREATION_DTTM":"2016-01-02 11:07:24","STUDY_DTTM":"2016-01-02 11:24:23","INSTITUTION":"FENYI PEOPLE HOSPITAL","STUDY_INSTANCE_UID":"1.2.840.40823.1.1.1.1665.1451703894.996.309.946","SOURCE_AETITLE":"JXXYSFYXRMYYCT","ACCESSION_NO":"CT052753","STUDY_ID":"12204","FILM_Printed":"1","REPORT_HISID":"8","REPORT_DRID":"158","AW_Printed":null,"REPORT":"1","PATIENT_AGE":"52"},{"STUDY_KEY":"21525","PATIENT_ID":"P00302155","PATIENT_NAME":"LiXiaoYing2222","PATIENT_SEX":"F","PATIENT_AGE1":"52","PATIENT_AGE2":"051Y","SERIES_COUNT":"6","INSTANCE_COUNT":"66","MODALITIES":"CT\\OT\\SR","CREATION_DTTM":"2016-01-02 11:07:24","STUDY_DTTM":"2016-01-02 11:24:23","INSTITUTION":"FENYI PEOPLE HOSPITAL","STUDY_INSTANCE_UID":"2.2.840.40823.1.1.1.1665.1451703894.996.309.946","SOURCE_AETITLE":"JXXYSFYXRMYYCT","ACCESSION_NO":"CT052753","STUDY_ID":"12204","FILM_Printed":"1","REPORT_HISID":"8","REPORT_DRID":"158","AW_Printed":null,"REPORT":"1","PATIENT_AGE":"52"},{"STUDY_KEY":"21526","PATIENT_ID":"P00302155","PATIENT_NAME":"LiXiaoYing333","PATIENT_SEX":"F","PATIENT_AGE1":"52","PATIENT_AGE2":"051Y","SERIES_COUNT":"6","INSTANCE_COUNT":"66","MODALITIES":"CT\\OT\\SR","CREATION_DTTM":"2016-01-02 11:07:24","STUDY_DTTM":"2016-01-02 11:24:23","INSTITUTION":"FENYI PEOPLE HOSPITAL","STUDY_INSTANCE_UID":"3.2.840.40823.1.1.1.1665.1451703894.996.309.946","SOURCE_AETITLE":"JXXYSFYXRMYYCT","ACCESSION_NO":"CT052753","STUDY_ID":"12204","FILM_Printed":"1","REPORT_HISID":"8","REPORT_DRID":"158","AW_Printed":null,"REPORT":"1","PATIENT_AGE":"52"}]};
+	
+		if(data.list.length > 0){
+				
+			$(".modal-search-listbox-tbody").empty();
+					
+			$.each(data.list, function (id, val) {
+					
+data.list[id]["URL"] = "/proxy/http/dcm.jiangxi.rimag.com.cn/8080/rmsweb/viewer.html?studyUID="+data.list[id].STUDY_INSTANCE_UID;
+
+			$(".modal-search-listbox-tbody").append("<tr><td><label class=\"checkbox inline\"><input type=\"checkbox\" name=\"subBox\" class=\"json-add\"  attrval="+val.STUDY_INSTANCE_UID+"></label></td><td>"+val.PATIENT_NAME+"</td><td>"+val.PATIENT_SEX+"</td><td>"+val.PATIENT_AGE+"</td><td>"+val.MODALITIES+"</td><td>"+val.CREATION_DTTM+"</td><td>"+val.STUDY_DTTM+"</td><td>"+val.INSTITUTION+"</td><td><a href="+val.URL+" target=\"_blank\"><i class='icon-picture'></i></a></td></tr>");	
+								
+			});
+			
+			$(".modal-search-listbox").css("display","block");
+		}			
+		//parent.controlfancsize();
+		
+	})
+
+});
+
+</script>
+
+</body>
+</html>

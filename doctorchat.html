@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta charset="utf-8">
+	
+<link rel="stylesheet" type="text/css" href="http://www.ceshi.com/public/css/uploadify.css" />
+
+<style>
+body{margin: 0;}
+.dpR_picChat{ position:relative;}
+#uploadify{width:26px; overflow:hidden;display:inline-block; position:absolute;top:0;left:0;}
+#open-dialog{position: absolute;
+	left: 88px;top:252px;
+	background: transparent;
+	color: #CCC;
+	border: none;
+	border-radius: 0;
+	box-shadow: none;
+	width: 396px;
+	text-align: left;
+	border-top: 1px solid #ccc;
+}
+.dpR_picInput_textarea{ margin-top:28px; box-shadow:none;}
+.objchangJsontablebg{ margin-left:56px;}
+.objchangJsontable, .dpr_ChatB_bg table, .dpr_Chat_bg table{    border-spacing: 0;border-collapse: collapse;
+	width: 100%;text-align: center; border:1px solid #ccc; border-right:none; border-bottom:none;}
+.objchangJsontable tr, .dpr_ChatB_bg table tr, .dpr_Chat_bg table tr{border-bottom:1px solid #ccc;}
+.objchangJsontable td, .dpr_ChatB_bg table td, .dpr_Chat_bg table td{border-right:1px solid #ccc; color:#fff;line-height: 28px;}
+.objchangJsontable td a,  .dpr_ChatB_bg table td a, .dpr_Chat_bg table td a{
+    color: #8cc3fb;
+    border: 1px solid #fff;
+    padding: 3px 6px;
+    border-radius: 4px;
+    background-color: #fff;
+	display:inline-block;
+	line-height: 18px;
+	font-size: 12px;
+}
+.dpr_ChatB_bg table{  background-color: #8CC3FB;    border-radius: 4px;    border: none;}
+.dpr_ChatB_bg table tr:last-child{border-bottom:none;}
+.dpr_ChatB_bg table tr td:last-child{border-right:none;}
+.dpr_Chat_left img {
+    width: 100%;
+}
+.dpr_ChatB_right div.dpr_ChatB_bg {
+    max-width: 300px;
+    word-wrap: break-word;
+    padding: 8px;
+    border: 1px solid #d7d7d7;
+    text-align: left;
+    border-radius: 4px;
+    margin-left: 8px;
+    margin-top: 4px;
+    background-color: #fff;
+    position: relative;
+}
+.dpr_ChatB_right .dpr_ChatB_bgarrow{width: 10px;height: 10px;border: 1px solid #d7d7d7; border-left: 0px solid #fff;border-bottom: 0px solid #fff;background-color: #fff; transform: rotate(39deg);position: absolute;top: 1px;right: -5px;z-index: 2;} 
+.dpR_conBA {
+    width: 499px;
+    height: 200px;
+    overflow-y: scroll;
+    border-bottom: 1px solid #d7d7d7;
+    background-color: #fff;
+}
+.dpR_picChat {
+    width: 482px;
+    height: auto;position: relative;
+}
+#fileQueue {
+    margin-bottom: 10px;
+}
+.uploadify {
+    border-top: 1px solid #d7d7d7;    position: relative;
+    margin-bottom: 1em;
+}
+#uploadify {
+    width: 26px;
+    overflow: hidden;
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+#uploadify .uploadifybtn {
+    width: 482px;
+    height: 24px;
+    cursor: pointer;
+    border-bottom: 1px solid #d7d7d7;
+    display: block;
+    background: url(../../../public/img/icon.png) no-repeat -32px -60px;
+    border-top: 1px solid #d7d7d7;
+    background-color: #fff;
+    border-radius: 0;
+    border-width: 0 0 1px;
+    cursor: pointer;
+}
+.dpR_picInput_textarea {
+    width: 479px;
+    height: 60px;
+    border: none;
+    margin: 0;
+    padding: 0;
+    padding: 10px;
+    border-bottom: 1px solid #d7d7d7;    background-color: #fff;    outline: none;margin-top: 28px;
+    box-shadow: none;
+}
+.dpR_picChat_btn {
+    width: 80px;
+    height: 30px;
+    font-style: 12px;
+    color: #fff;
+    background-color: #3993ed;
+    line-height: 30px;
+    text-align: center;
+    margin-top: 4px;
+    float: right;
+    margin-right: -8px;
+    cursor: pointer;
+}
+.dpr_Chat_left{ width: 50px; height: 50px; overflow: hidden; float: left;border-radius: 50%;}
+.dpr_Chat_left img{ }
+.dpr_Chat_right{ max-width: 300px; float: left; margin-left: 6px;}
+.dpr_Chat_right p{font-size: 12px; color: #333;}
+.dpr_Chat_bg{word-wrap :break-word; padding: 8px; border-radius: 4px; margin-left: 8px; margin-top: 4px; background-color: #8cc3fb; position: relative;}
+.dpr_Chat_bgarrow{width: 10px;height: 10px; background-color: #8cc3fb; transform: rotate(45deg);position: absolute;top: 2px;left: -4px;z-index: 2;} 
+
+
+</style>
+</head>
+<body style="background-color:#fff">
+<input class="doctorImage" type="hidden" value="http://ww1.sinaimg.cn/mw600/bce7ca57gw1e4rg0coeqqj20dw099myu.jpg" />
+<input class="doctorName" type="hidden" value="黄玲" />
+
+
+                <div class="dpR_conBA" style="border-bottom:none;">
+                <ul>
+                
+                </ul>
+              </div>
+
+              <div class="dpR_picChat">
+	
+		<div id="fileQueue"></div>
+        <input type="file" name="uploadify" id="uploadify" class="uploadifybtn"/>
+		
+	
+                <textarea class="dpR_picInput_textarea"></textarea>
+                <div class="dpR_picChat_btn">发送信息</div>
+              </div>
+			  
+<script src="http://www.ceshi.com/public/js/jquery.min.js"></script> 
+<script src="http://www.ceshi.com/public/js/jquery.uploadify.min.js"></script>
+
+
+
+
+<script type="text/javascript">
+
+$(document).on('click','.dpR_conBA .fancyboximg',function(){
+	var imgsrc = $(this).next("img").attr("src");		
+	parent.popimg(imgsrc);	
+})
+
+$(document).on('click','.dpR_conBA .fancybox2img',function(){
+	var imgsrc = $(this).next("img").attr("src");		
+	parent.popimg(imgsrc);	
+})
+
+
+$(function () {
+	$("#uploadify").uploadify({
+		
+		formData: {
+			//'from' : from,
+			//'to'     : to,
+			//'applyId' : applyId,
+			//'now': new Date().getTime(),
+			//'type_id': 1,
+		},
+		swf: '../../../public/js/uploadify.swf',
+	    uploader: '/proxy/http/upload.519e.com.cn/80/Image/Upload?AuthToken=01e5022f-32de-4f9a-ade8-d241ce1b71d4', 
+	    buttonClass: 'uploadifybtn',
+		buttonText: '',
+		fileTypeDesc: 'Image Files',
+		fileTypeExts: '*.gif; *.jpg; *.png',
+		auto: true,
+		width:'100%',	 
+		height:'24px', 
+	    buttonClass: 'uploadifybtn',
+		folder: 'uploads',
+		buttonText: '',
+		//'removeCompleted':false,
+		queueSizeLimit: 1, //限制每次选择文件的个数
+		buttonCursor:'pointer',
+		fileTypeDesc: 'Image Files',
+		queueID: 'fileQueue',
+		method:'Post',
+		removeTimeout:1,
+		fileObjName: 'File',
+		//'debug':true,
+		//设置为true将允许多文件上传
+		multi: false,
+		//返回一个错误，选择文件的时候触发  
+		onSelectError:function(file, errorCode, errorMsg){  
+			switch(errorCode) {  
+				case -100:  
+					alert("上传的文件数量已经超出系统限制的"+$('#uploadify').uploadify('settings','queueSizeLimit')+"个文件！");  
+					break;   
+				case -120:  
+					alert("文件 ["+file.name+"] 大小异常！");  
+					break;  
+				case -130:  
+					alert("文件 ["+file.name+"] 类型不正确！");  
+					break;  
+			}  
+		},  
+		//检测FLASH失败调用  
+		onFallback:function(){  
+			alert("您未安装FLASH控件，无法上传图片！请安装FLASH控件后再试。");  
+		}, 
+		onUploadSuccess: function (file,data,response) { //每完成一次文件上传时触发一次 save_name			 
+			    var dataval = eval("("+data+")");
+				if(dataval.StatusTag == "success"){
+				  
+				   
+					$(".dpR_conBA ul").append("<div class='dpr_Chat'>"+
+                     	  '<div class="dpr_Chat_left"><img alt="#" src="" style="width:50px;"/></div>'+
+                      	  "<div class='dpr_Chat_right'>"+
+                          "<p> 医生</p>"+
+                          "<div class='dpr_Chat_bg'><i class='dpr_Chat_bgarrow'></i>"+
+						  "<img class='fancyboximg' src='"+ dataval.Result.small +"'/><img style='display:none' src='"+ dataval.Result.origin +"'/></div>"+
+                          "</div></div>");
+
+				}else{
+					alert("上传不成功");
+				}	   			
+		}
+	});
+});
+
+
+
+
+function DrawImage(ImgD,FitWidth,FitHeight){     
+    var image=new Image();     
+    image.src=ImgD.src;     
+    if(image.width>0 && image.height>0){     
+        if(image.width/image.height>= FitWidth/FitHeight){     
+            if(image.width>FitWidth){     
+                ImgD.width=FitWidth;     
+                ImgD.height=(image.height*FitWidth)/image.width;     
+            }     
+            else{     
+                ImgD.width=image.width;     
+                ImgD.height=image.height;     
+            }     
+        }     
+        else{     
+            if(image.height>FitHeight){     
+                ImgD.height=FitHeight;     
+                ImgD.width=(image.width*FitHeight)/image.height;     
+            }     
+            else{     
+                ImgD.width=image.width;     
+                ImgD.height=image.height;     
+            }     
+        }     
+    }     
+}  
+</script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
